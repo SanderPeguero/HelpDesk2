@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { BrowserRouter, Route, Switch } from "react-router"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Navbar from './components/layout/Navbar'
 
-import AppContext from "./Context"
+import { AppContext } from "./Context"
 
 import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
@@ -10,7 +10,7 @@ import SignUp from './components/auth/SignUp'
 
 function App() {
 
-  const [auth, setauth] = useState(null)
+  const [auth, setauth] = useState({ uid: null })
   const [authError, setauthError] = useState(null)
   const [projects, setprojects] = useState([])
   const [profile, setprofile] = useState(null);
@@ -20,13 +20,13 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <Navbar />
-          <Switch>
+          <Routes>
             {/* <Route exact path='/'component={Dashboard} /> */}
             {/* <Route path='/project/:id' component={ProjectDetails} /> */}
-            <Route path='/signin' component={SignIn} />
-            <Route path='/signup' component={SignUp} />
+            <Route path='/signin' element={<SignIn/>} />
+            <Route path='/signup' element={<SignUp/>} />
             {/* <Route path='/create' component={CreateProject} /> */}
-          </Switch>
+          </Routes>
         </div>
       </BrowserRouter>
     </AppContext.Provider>

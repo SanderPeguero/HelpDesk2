@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { signUp } from '../../functions/signUp'
 import { AppContext } from '../../Context'
@@ -28,7 +28,7 @@ function SignUp(){
 
   }
 
-  if (auth.uid) return <Redirect to='/' /> 
+  if (auth.uid) return <Navigate to='/' /> 
   return (
     <div className="container">
       <form className="white" onSubmit={handleSubmit}>
