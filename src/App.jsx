@@ -122,7 +122,7 @@ function App() {
           </Snackbar>
           {/* <Sidebar /> */}
           {auth ? <Sidebar /> : <Navigate to='/login' />}
-          <div className={`${auth ? '' : 'ml-[12rem] md:ml-[16rem] mr-4'}`}>
+          <div className={`${!auth ? '' : 'ml-[12rem] md:ml-[16rem] mr-4'}`}>
             <Routes>
               {/* <Route exact path='/' element={<SignIn/>} />∏ */}
               {/* <Route path='/project/:id' component={ProjectDetails} /> */}
