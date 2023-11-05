@@ -10,7 +10,7 @@ import Snackbar from '@mui/material/Snackbar'
 
 import { ContextVariable } from "./Context"
 
-import SignIn from './layout/Signin/Signin'
+import SignIn from './layout/SignIn/Signin'
 import Login from './layout/LogIn/Login'
 import Sidebar from './layout/Sidebar/Sidebar'
 import Reports from './layout/Reports/Reports'
