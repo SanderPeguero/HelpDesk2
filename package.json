@@ -13,6 +13,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.16",
+    "@vercel/analytics": "^1.1.1",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.11.0",
     "react": "^18.2.0",

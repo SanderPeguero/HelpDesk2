@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import Cards from './Cards'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
+
+import { ContextVariable } from '../../Context'
 
 function AllTickets() {
 
     const [tickets, settickets] = useState([])
+    const { setalert } = useContext(ContextVariable)
 
     const db = getFirestore()
 
@@ -29,29 +32,40 @@ function AllTickets() {
 
     const getTickets = async () => {
 
-        console.log('getUser function')
-        const docRef = collection(db, "Tickets");
-        const docSnap = await getDocs(docRef);
+        try {
+            // console.log('getUser function')
+            const docRef = collection(db, "Tickets");
+            const docSnap = await getDocs(docRef);
 
-        var FirebaseTickets = []
+            var FirebaseTickets = []
 
-        docSnap.forEach((user) => {
+            docSnap.forEach((user) => {
 
-            FirebaseTickets.push({ ...user.data(), 'id': user.id, 'icon': 'M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z', 'viewBox': '0 0 512 512' })
-            // setusers((prev) => [...prev, user.data()])
-        })
+                FirebaseTickets.push({ ...user.data(), 'id': user.id, 'icon': '', 'viewBox': '' })
+                // setusers((prev) => [...prev, user.data()])
+            })
 
-        settickets(FirebaseTickets)
-        console.log(FirebaseTickets)
+            settickets(FirebaseTickets)
+            console.log(FirebaseTickets)
+
+            setalert({
+                ...alert,
+                open: true,
+                message: `Tickets Loaded`,
+                severity: 'success'
+            });
+
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            setalert({
+                ...alert,
+                open: true,
+                message: `Tu boleta no se ha pudo activar`,
+                severity: 'error'
+            });
+        }
 
     }
-
-    const addIcon = () => {
-    }
-
-    useEffect(() => {
-        getTickets()
-    }, []);
 
     useEffect(() => {
         getTickets()

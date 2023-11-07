@@ -18,6 +18,8 @@ import Users from './layout/Users/Users'
 import AllTickets from './layout/AllTickets/AllTickets'
 // import SignUp from './components/auth/SignUp'
 
+import { Analytics } from '@vercel/analytics/react';
+
 const Home = () => {
   return (
     <div>
@@ -109,6 +111,7 @@ function App() {
     <ContextVariable.Provider value={{ user, alert, setalert, auth, setauth }}>
       <Router>
         <div className='App'>
+          <Analytics/>
           <Snackbar
             anchorOrigin={{ vertical, horizontal }}
             autoHideDuration={4000}
