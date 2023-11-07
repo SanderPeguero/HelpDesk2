@@ -10,7 +10,7 @@ function Cards({ data }) {
             {
                 data.map((card) => (
                     <div key={card.icon} className='flex flex-grow !flex-row border-0 px-3 py-3  bg-white rounded text-sm shadow hover:shadow-lg hover:cursor-pointer focus:outline-none focus:ring w-full ease-linear transition-all duration-150'>
-                        <div className="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                        <div className="flex h-[90px] w-auto flex-row items-center">
                             <div className="rounded-full p-3 bg-[rgb(244,247,254)]">
                                 <span className="flex items-center text-[rgb(66,42,251)]">
                                     <svg

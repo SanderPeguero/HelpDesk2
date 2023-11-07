@@ -124,9 +124,9 @@ function Sidebar() {
                                         clipRule="evenodd"
                                     ></path>
                                 </svg>
-                                <span className="pl-1">Reports</span>
+                                <span className="pl-1">Ticket Form</span>
                             </Link>
-                            <Link
+                            {/* <Link
                                 href=""
                                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                             >
@@ -212,7 +212,7 @@ function Sidebar() {
                                     ></path>
                                 </svg>
                                 <span className="pl-1">UI Components</span>
-                            </Link>
+                            </Link> */}
                             <Link
                                 to='/users'
                                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
@@ -229,7 +229,7 @@ function Sidebar() {
                                 </svg>
                                 <span className="pl-1">Users</span>
                             </Link>
-                            <div className="pt-[15rem]">
+                            <div className="pt-[29rem]">
 
                                 <button
                                     className="text-left w-full self-baseline text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"

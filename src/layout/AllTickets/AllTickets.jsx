@@ -39,9 +39,9 @@ function AllTickets() {
 
             var FirebaseTickets = []
 
-            docSnap.forEach((user) => {
+            docSnap.forEach((ticket) => {
 
-                FirebaseTickets.push({ ...user.data(), 'id': user.id, 'icon': '', 'viewBox': '' })
+                FirebaseTickets.push({ ...ticket.data(), 'id': ticket.id})
                 // setusers((prev) => [...prev, user.data()])
             })
 
@@ -51,7 +51,7 @@ function AllTickets() {
             setalert({
                 ...alert,
                 open: true,
-                message: `Tickets Loaded`,
+                message: `All Tickets Loaded`,
                 severity: 'success'
             });
 

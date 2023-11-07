@@ -2,6 +2,7 @@ import { collection, getFirestore, addDoc } from "firebase/firestore"
 import { useEffect, useState, useContext } from "react"
 
 import { ContextVariable } from "../../Context"
+import { useNavigate } from "react-router-dom"
 
 function Reports() {
 
@@ -19,14 +20,17 @@ function Reports() {
     // Fecha y hora de cierre.
 
     const { user, setalert } = useContext(ContextVariable)
+    const navigate = useNavigate()
 
     const [name, setname] = useState(user.name)
     const [userId, setuserId] = useState(user.id)
-    const [department, setdepartment] = useState('')
+    const [department, setdepartment] = useState(user.department)
     const [phone, setphone] = useState('')
     const [requestType, setrequestType] = useState('')
     const [description, setdescription] = useState('')
     const [priority, setpriority] = useState('Normal')
+    const [icon, seticon] = useState(null);
+    const [viewBox, setviewBox] = useState(null);
     // const [submitDate, setsubmitDate] = useState(new Date())
 
     const db = getFirestore()
@@ -44,7 +48,10 @@ function Reports() {
                 submitDate: new Date,
                 ticketState: 'review',
                 resolution: null,
-                closeDate: null
+                isSolved: false,
+                closeDate: null,
+                icon: icon,
+                viewBox: viewBox
             });
 
             console.log("Document written with ID: ", docref);
@@ -54,8 +61,9 @@ function Reports() {
                 message: `Ticket enviado`,
                 severity: 'success'
             });
+            navigate('/')
 
-        } catch (e) { 
+        } catch (e) {
             console.error("Error adding document: ", e);
             setalert({
                 ...alert,
@@ -66,31 +74,59 @@ function Reports() {
         }
     }
 
+    useEffect(() => {
+
+        seticon(setIcon(priority).iconHander)
+        setviewBox(setIcon(priority).viewBoxHandler)
+
+    }, [priority]);
+
     const setIcon = (option) => {
-        var icons = {
-            'No Urgente' : 
+        const icons = {
+            
+            'No Urgente':
+            {
+                'icon': 'M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM96.8 314.1c-3.8-13.7 7.4-26.1 21.6-26.1H393.6c14.2 0 25.5 12.4 21.6 26.1C396.2 382 332.1 432 256 432s-140.2-50-159.2-117.9zM144.4 192a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z',
+                'viewBox': '0 0 512 512'
+            },
+            'Normal':
             {
                 'icon': 'M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z',
                 'viewBox': '0 0 512 512'
             },
-            'Normal': 
+            'Urgente':
             {
-                'icon': '',
-                'viewBox': ''
+                'icon': 'M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM176.4 176a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM160 336H352c8.8 0 16 7.2 16 16s-7.2 16-16 16H160c-8.8 0-16-7.2-16-16s7.2-16 16-16z',
+                'viewBox': '0 0 512 512'
             },
             'Muy Urgente':
             {
-                'icon': 'M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z',
+                'icon': 'M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.7 328.7c22-22 53.9-40.7 91.3-40.7s69.3 18.7 91.3 40.7c11.1 11.1 20.1 23.4 26.4 35.4c6.2 11.7 10.3 24.4 10.3 35.9c0 5.2-2.6 10.2-6.9 13.2s-9.8 3.7-14.7 1.8l-20.5-7.7c-26.9-10.1-55.5-15.3-84.3-15.3h-3.2c-28.8 0-57.3 5.2-84.3 15.3L149.6 415c-4.9 1.8-10.4 1.2-14.7-1.8s-6.9-7.9-6.9-13.2c0-11.6 4.2-24.2 10.3-35.9c6.3-12 15.3-24.3 26.4-35.4zm-31.2-182l89.9 47.9c10.7 5.7 10.7 21.1 0 26.8l-89.9 47.9c-7.9 4.2-17.5-1.5-17.5-10.5c0-2.8 1-5.5 2.8-7.6l36-43.2-36-43.2c-1.8-2.1-2.8-4.8-2.8-7.6c0-9 9.6-14.7 17.5-10.5zM396 157.1c0 2.8-1 5.5-2.8 7.6l-36 43.2 36 43.2c1.8 2.1 2.8 4.8 2.8 7.6c0 9-9.6 14.7-17.5 10.5l-89.9-47.9c-10.7-5.7-10.7-21.1 0-26.8l89.9-47.9c7.9-4.2 17.5 1.5 17.5 10.5z',
                 'viewBox': '0 0 512 512'
             },
-            'Riesgo Vital Inmediato':
+            'Riesgo Inmediato':
             {
-                'icon': '',
-                'viewBox': ''
+                'icon': 'M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-224a64 64 0 1 1 0 128 64 64 0 1 1 0-128zM100.7 132.7c6.2-6.2 16.4-6.2 22.6 0L160 169.4l36.7-36.7c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6L182.6 192l36.7 36.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0L160 214.6l-36.7 36.7c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6L137.4 192l-36.7-36.7c-6.2-6.2-6.2-16.4 0-22.6zm192 0c6.2-6.2 16.4-6.2 22.6 0L352 169.4l36.7-36.7c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6L374.6 192l36.7 36.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0L352 214.6l-36.7 36.7c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6L329.4 192l-36.7-36.7c-6.2-6.2-6.2-16.4 0-22.6z',
+                'viewBox': '0 0 512 512'
             }
         }
 
+        const iconHander = (icons[option].icon)
+        const viewBoxHandler = (icons[option].viewBox)
+
+        // if(option){
+        //     console.log(option)
+        //     // console.log(icons[option].viewBox)
+
+        //     console.log(iconHander)
+        //     setIcon((prev) => iconHander)
+        //     setviewBox((prev) => viewBoxHandler)
+        // }
+
+        return { iconHander, viewBoxHandler }
+
     }
+
 
     const clearTicket = () => {
         setname(user.name)
@@ -130,8 +166,8 @@ function Reports() {
     }
 
     useEffect(() => {
-        // console.log(userId)
-    }, [userId]);
+        console.log(icon)
+    }, [icon]);
 
 
     return (
@@ -165,14 +201,14 @@ function Reports() {
 
                                         <div className="col-span-6 sm:col-span-3">
                                             <div className="relative w-full mb-3">
-                                                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">Numero de Empleado</label>
+                                                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">ID de Empleado</label>
                                                 <input value={userId} type="text" readOnly onChange={(e) => setuserId(e.target.value)} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="0101" />
                                             </div>
                                         </div>
                                         <div className="col-span-6 sm:col-span-3">
                                             <div className="relative w-full mb-3">
                                                 <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">Departamento o Area</label>
-                                                <input value={department} type="email" onChange={(e) => setdepartment(e.target.value)} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Pediatria" />
+                                                <input value={department} type="email" readOnly onChange={(e) => setdepartment(e.target.value)} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Pediatria" />
                                             </div>
                                         </div>
 
@@ -292,9 +328,9 @@ function Reports() {
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <div className={`flex p-2 rounded ${priority == 'Riesgo Vital Inmediato' ? 'bg-[#dc5d51]' : ''} hover:bg-[#ffb7b7]`}>
+                                                        <div className={`flex p-2 rounded ${priority == 'Riesgo Inmediato' ? 'bg-[#dc5d51]' : ''} hover:bg-[#ffb7b7]`}>
                                                             <div className="flex items-center h-5">
-                                                                <input id="helper-radio-8" onChange={() => setpriority('Riesgo Vital Inmediato')} checked={priority == 'Riesgo Vital Inmediato' ? true : false} name="helper-radio" type="radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                                <input id="helper-radio-8" onChange={() => setpriority('Riesgo Inmediato')} checked={priority == 'Riesgo Inmediato' ? true : false} name="helper-radio" type="radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                                             </div>
                                                             <div className="ml-2 text-sm">
                                                                 <label htmlFor="helper-radio-8" className="font-medium text-gray-900">

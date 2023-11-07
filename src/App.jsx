@@ -130,6 +130,23 @@ function App() {
 
               {!auth ? <Route path='/login' element={<Login />} /> : null}
               {
+                user ? user.role == 'user' ?
+                  (
+                    <>
+                      {/* <Route exact path='/ticketsdash' element={<Home />} /> */}
+                      {/* <Route exact path='/signin' element={<SignIn />} /> */}
+                      <Route exact path='/' element={<AllTickets />} />
+                      <Route exact path='/reports' element={<Reports />} />
+                      {/* <Route exact path='/users' element={<Users />} /> */}
+                      <Route exact path='*' element={<Navigate to='/' />} />
+                      {/* <Route exact path='/dashboardsparkle' element={<Dashboard />} />
+                      <Route exact path='/activationsdash' element={<ActivationsDash />} /> */}
+                    </>
+                  )
+                  : <Route path='*' element={<Navigate to='/' />} />
+                  : <Route path='*' element={<Navigate to='/login' />} />
+              }
+              {
                 user ? user.role == 'admin' ?
                   (
                     <>

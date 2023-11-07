@@ -1,14 +1,39 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, getFirestore } from "firebase/firestore"
 
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+import SignIn from "../SignIn/Signin";
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 'full',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    // p: 4,
+};
+
 function Users() {
 
     const [users, setusers] = useState([])
-    const [search, setsearch] = useState('');
+    const [search, setsearch] = useState('')
+
+    const [open, setOpen] = React.useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     const db = getFirestore()
 
     const data = users.filter((user) => user.name.replace(/\s+/g, '').toLowerCase().includes(search.replace(/\s+/g, '').toLowerCase()))
+
 
     const getUser = async () => {
 
@@ -47,6 +72,18 @@ function Users() {
 
     return (
         <div className="bg-white p-8 rounded-md container relative mx-auto">
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <div>
+                        <SignIn />
+                    </div>
+                </Box>
+            </Modal>
             <div className=" flex items-center justify-between pb-6">
                 <div>
                     <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
@@ -64,10 +101,10 @@ function Users() {
                         </svg>
                         <input className="bg-gray-50 outline-none ml-1 block " value={search} type="text" onChange={(e) => setsearch(e.target.value)} name="" id="" placeholder="search..." />
                     </div>
-                    {/* <div className="lg:ml-40 ml-10 space-x-8">
-                        <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button>
-                        <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Create</button>
-                    </div> */}
+                    <div className="lg:ml-40 ml-10 space-x-8">
+                        {/* <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button> */}
+                        <button onClick={handleOpen} className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Create</button>
+                    </div>
                 </div>
             </div>
             <div>
