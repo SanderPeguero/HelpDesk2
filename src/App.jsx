@@ -111,7 +111,7 @@ function App() {
     <ContextVariable.Provider value={{ user, alert, setalert, auth, setauth }}>
       <Router>
         <div className='App'>
-          <Analytics/>
+          
           <Snackbar
             anchorOrigin={{ vertical, horizontal }}
             autoHideDuration={4000}
@@ -125,6 +125,7 @@ function App() {
           </Snackbar>
           {/* <Sidebar /> */}
           {auth ? <Sidebar /> : <Navigate to='/login' />}
+          {auth ? <Analytics/> : null }
           <div className={`${!auth ? '' : 'ml-[12rem] md:ml-[16rem] mr-4'}`}>
             <Routes>
               {/* <Route exact path='/' element={<SignIn/>} />∏ */}
