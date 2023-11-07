@@ -18,8 +18,6 @@ import Users from './layout/Users/Users'
 import AllTickets from './layout/AllTickets/AllTickets'
 // import SignUp from './components/auth/SignUp'
 
-import { Analytics } from '@vercel/analytics/react';
-
 const Home = () => {
   return (
     <div>
@@ -125,7 +123,6 @@ function App() {
           </Snackbar>
           {/* <Sidebar /> */}
           {auth ? <Sidebar /> : <Navigate to='/login' />}
-          {auth ? <Analytics/> : null }
           <div className={`${!auth ? '' : 'ml-[12rem] md:ml-[16rem] mr-4'}`}>
             <Routes>
               {/* <Route exact path='/' element={<SignIn/>} />∏ */}
