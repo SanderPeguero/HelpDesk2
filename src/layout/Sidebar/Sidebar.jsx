@@ -52,7 +52,7 @@ function Sidebar() {
                         </h1>
                         <div id="profile" className="space-y-3">
                             <img
-                                src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                src="https://firebasestorage.googleapis.com/v0/b/hsvp-41c45.appspot.com/o/Hospital%20San%20Vicente%20de%20Paul.png?alt=media&token=c2f5660b-df1b-4565-b5ac-e03ce3ab64d0"
                                 alt="Avatar user"
                                 className="w-10 md:w-16 rounded-full mx-auto"
                             />
