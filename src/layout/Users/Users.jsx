@@ -4,8 +4,6 @@ import { collection, getDocs, getFirestore } from "firebase/firestore"
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import SignIn from "../SignIn/Signin";
@@ -200,6 +198,11 @@ function Users() {
         </div>
 
     )
+
+
+
+
+    
 }
 
 export default Users

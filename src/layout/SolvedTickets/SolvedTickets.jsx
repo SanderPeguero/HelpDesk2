@@ -19,10 +19,9 @@ const style = {
     width: 'full',
     bgcolor: 'background.paper',
     boxShadow: 24,
-    // p: 4,
-};
+}
 
-function AllTickets() {
+function SolvedTickets() {
 
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
@@ -48,16 +47,16 @@ function AllTickets() {
 
     const data = tickets.filter((ticket) => ticket.department.replace(/\s+/g, '').toLowerCase().includes(search.replace(/\s+/g, '').toLowerCase()))
 
-    const { setalert, user } = useContext(ContextVariable)
+    const { setalert } = useContext(ContextVariable)
 
     const db = getFirestore()
 
-
+ 
 
     const getTickets = async () => {
 
         try {
-
+            
             const docRef = collection(db, "Tickets");
             const docSnap = await getDocs(docRef);
 
@@ -65,7 +64,7 @@ function AllTickets() {
 
             docSnap.forEach((ticket) => {
 
-                if (!ticket.data().isSolved) {
+                if (ticket.data().isSolved) {
 
                     FirebaseTickets.push({ ...ticket.data(), 'id': ticket.id })
                 }
@@ -100,26 +99,24 @@ function AllTickets() {
 
     return (
         <div className="bg-white p-8 rounded-md container relative mx-auto">
-            {user.role ?
-                <Modal
-                    open={open2}
-                    onClose={handleClose2}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <div>
-                            <Reports />
-                        </div>
-                    </Box>
-                </Modal>
-            : null}
+            <Modal
+                open={open2}
+                onClose={handleClose2}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <div>
+                        <Reports onClose={handleClose2}/>
+                    </div>
+                </Box>
+            </Modal>
             <div className=" flex items-center justify-between pb-6">
                 <div>
                     <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
                         Tickets<span className="text-teal-600">.</span>
                     </h1>
-                    <span className="text-xs">All Unsolved Tickets List</span>
+                    <span className="text-xs">All Tickets Solved</span>
                 </div>
                 <div className="flex items-center justify-between">
                     <div className="flex bg-gray-50 items-center p-2 rounded-md">
@@ -139,20 +136,18 @@ function AllTickets() {
             </div>
             <div>
                 <div className="flex flex-col justify-center items-center pt-4">
-                    {user.role == 'admin' ?
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={style}>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
 
-                                <Ticket ticket={ticket} />
+                            <Ticket ticket={ticket} />
 
-                            </Box>
-                        </Modal>
-                    : null}
+                        </Box>
+                    </Modal>
                     {/* <div className='text-[2rem] font-bold'>All Tickets</div> */}
                     <div className=" container mx-auto  mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
                         <Cards data={data} handleOpenModal={handleOpenTicket} />
@@ -164,4 +159,4 @@ function AllTickets() {
     )
 }
 
-export default AllTickets
+export default SolvedTickets

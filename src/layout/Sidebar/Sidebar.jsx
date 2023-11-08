@@ -108,6 +108,15 @@ function Sidebar() {
                                 <span className="pl-1">All Tickets</span>
                             </Link>
                             <Link
+                                to='solvedtickets'
+                                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
+                            >
+                                <svg className="w-5 h-5 fill-current inline-block" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" >
+                                    <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM305 273L177 401c-9.4 9.4-24.6 9.4-33.9 0L79 337c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L271 239c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                </svg>
+                                <span className="pl-1">Solved Tickets</span>
+                            </Link>
+                            {/* <Link
                                 to='reports'
                                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                             >
@@ -125,7 +134,7 @@ function Sidebar() {
                                     ></path>
                                 </svg>
                                 <span className="pl-1">Ticket Form</span>
-                            </Link>
+                            </Link> */}
                             {/* <Link
                                 href=""
                                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"

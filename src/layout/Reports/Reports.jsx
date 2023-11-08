@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from "react"
 import { ContextVariable } from "../../Context"
 import { useNavigate } from "react-router-dom"
 
-function Reports() {
+function Reports(props) {
 
     // Nombre del solicitante.
     // Número de empleado o identificación del usuario.
@@ -25,7 +25,7 @@ function Reports() {
     const [name, setname] = useState(user.name)
     const [userId, setuserId] = useState(user.id)
     const [department, setdepartment] = useState(user.department)
-    const [phone, setphone] = useState('')
+    const [phone, setphone] = useState(user.phone)
     const [requestType, setrequestType] = useState('')
     const [description, setdescription] = useState('')
     const [priority, setpriority] = useState('Normal')
@@ -61,7 +61,11 @@ function Reports() {
                 message: `Ticket enviado`,
                 severity: 'success'
             });
-            navigate('/')
+            if(!props.onClose){
+                () => props.onClose()
+            }
+            navigate('/login')
+            clearTicket()
 
         } catch (e) {
             console.error("Error adding document: ", e);
@@ -83,7 +87,7 @@ function Reports() {
 
     const setIcon = (option) => {
         const icons = {
-            
+
             'No Urgente':
             {
                 'icon': 'M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM96.8 314.1c-3.8-13.7 7.4-26.1 21.6-26.1H393.6c14.2 0 25.5 12.4 21.6 26.1C396.2 382 332.1 432 256 432s-140.2-50-159.2-117.9zM144.4 192a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z',
@@ -131,8 +135,8 @@ function Reports() {
     const clearTicket = () => {
         setname(user.name)
         setuserId(user.id)
-        setdepartment('')
-        setphone('')
+        setdepartment(user.department)
+        setphone(user.phone)
         setrequestType('')
         setdescription('')
         setpriority('Normal')
@@ -172,11 +176,11 @@ function Reports() {
 
     return (
         <div className='w-full mr-4 mt-4'>
-            <div
+            {/* <div
                 className="w-full h-14 pt-2 text-center bg-gray-700  shadow overflow-hidden sm:rounded-md font-bold text-3xl text-white">
                 Ticket Form
 
-            </div>
+            </div> */}
 
             <section className="text-gray-600 body-font  m-0 p-0 relative">
 
@@ -259,10 +263,10 @@ function Reports() {
 
                                         <div className="col-span-6 sm:col-span-3">
                                             <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">Descripcion</label>
-                                            <div className="mb-6">
+                                            <div className="mb-6 mt-5">
                                                 <textarea
                                                     value={description}
-                                                    rows="6"
+                                                    rows="11"
                                                     onChange={(e) => { setdescription(e.target.value) }}
                                                     placeholder="..."
                                                     className="w-full shadow rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-primary">
@@ -343,272 +347,24 @@ function Reports() {
                                                 </ul>
                                             </div>
                                         </div>
-
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <div className=" flex px-4 py-3 bg-white text-right sm:px-6">
-                                                <button onClick={clearTicket} className="mr-4 inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring ring-gray-500 ring-offset-4  text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-indigo-500">
-                                                    New
-                                                </button>
-                                                <button onClick={submitTicket}
-                                                    className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring  ring-indigo-500 ring-offset-4 bg-indigo-600 hover:bg-indigo-700 text-white focus:outline-none focus:ring-2  focus:ring-indigo-500">
-                                                    Save
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {/* <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                                                No of Vacanices</label>
-                                            <select id="country" name="country" autoComplete="country"
-                                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                Age</label>
-                                            <input type="text" name="last-name" placeholder="above 18" id="last-name"
-                                                autoComplete="family-name"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div>
-
-
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                Job Lavel</label>
-                                            <input type="text" name="last-name" id="last-name" placeholder="internee officer"
-                                                autoComplete="family-name"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div>
-
-
-
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                                                Department</label>
-                                            <select id="country" name="country" autoComplete="country"
-                                                className="mt-3 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                <option className="mt-2">HR</option>
-                                                <option>Canada</option>
-                                                <option>Mexico</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                Section</label>
-                                            <input type="text" name="last-name" placeholder="gate managment" id="last-name"
-                                                autoComplete="family-name"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div>
-
-
-
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                Academic Qualification</label>
-                                            <input type="text" name="last-name" placeholder="BBA" id="last-name"
-                                                autoComplete="family-name"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div>
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                Required experience</label>
-                                            <input type="text" name="last-name" placeholder="2 years or above" id="last-name"
-                                                autoComplete="family-name"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div>
-
-                                        <div className="col-span-6 sm:col-span-6">
-                                            <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">Email
-                                                description</label>
-                                            <input type="text" name="email-address"
-                                                placeholder="1- 334343434 It should be an editor to fill the job description of around 5 to 10 Lines ."
-                                                id="email-address" autoComplete="email"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div>
-
-
-                                        <div className="col-span-6 sm:col-span-3">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                No. of meetings/interviews</label>
-                                            <input type="text" name="last-name" placeholder="3" id="last-name"
-                                                autoComplete="family-name"
-                                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        </div> */}
-
-
                                     </div>
-                                    {/* <fieldset className="mt-8 ">
-                                        <legend className=" text-base  text-1.5xl font-medium text-gray-900">Job Skill</legend>
-                                        <div className="mt-2 space-y-4">
-                                            <div className="flex place-items-center">
-                                                <div className="flex items-center h-5">
-                                                    <input id="comments" name="comments" type="checkbox"
-                                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                </div>
-                                                <div className="ml-3 text-sm">
-                                                    <label htmlFor="comments" className="font-regular text-gray-700">Accounting</label>
-
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start">
-                                                <div className="flex items-center h-5">
-                                                    <input id="comments" name="comments" type="checkbox"
-                                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                </div>
-                                                <div className="ml-3 text-sm">
-                                                    <label htmlFor="comments" className="font-regular text-gray-700">Bookkeeping</label>
-
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start">
-                                                <div className="flex items-center h-5">
-                                                    <input id="comments" name="comments" type="checkbox"
-                                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                </div>
-                                                <div className="ml-3 text-sm">
-                                                    <label htmlFor="comments" className="font-regular text-gray-700">Auditing</label>
-
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start">
-                                                <div className="flex items-center h-5">
-                                                    <input id="comments" name="comments" type="checkbox"
-                                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                </div>
-                                                <div className="ml-3 text-sm">
-                                                    <label htmlFor="comments" className="font-regular text-gray-700">written
-                                                        communication</label>
-
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start">
-                                                <div className="flex items-center h-5">
-                                                    <input id="comments" name="comments" type="checkbox"
-                                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                </div>
-                                                <div className="ml-3 text-sm">
-                                                    <label htmlFor="comments" className="font-regular text-gray-700">Team
-                                                        Managment</label>
-
-                                                </div>
-                                            </div>
-                                            <legend className=" text-base  text-1.5xl font-medium text-gray-900">
-                                                Interview/type
-                                            </legend>
-                                            <div className="mt-2 space-y-4">
-                                                <div className="flex items-start">
-                                                    <div className="flex items-center h-5">
-                                                        <input id="comments" name="comments" type="checkbox"
-                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                    </div>
-                                                    <div className="ml-3 text-sm">
-                                                        <label htmlFor="comments"
-                                                            className="font-mediuregular text-gray-700">Technical</label>
-
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-start">
-                                                    <div className="flex items-center h-5">
-                                                        <input id="comments" name="comments" type="checkbox"
-                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                    </div>
-                                                    <div className="ml-3 text-sm">
-                                                        <label htmlFor="comments" className="font-mediuregular text-gray-700">HR</label>
-
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-start">
-                                                    <div className="flex items-center h-5">
-                                                        <input id="comments" name="comments" type="checkbox"
-                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                    </div>
-                                                    <div className="ml-3 text-sm">
-                                                        <label htmlFor="comments" className="font-mediuregular text-gray-700">Final</label>
-
-                                                    </div>
-                                                </div>
-
-                                                <legend className=" text-base  text-1.5xl font-medium text-gray-900">
-                                                    Competencies
-                                                </legend>
-                                                <div className="   space-y-4">
-                                                    <div className="flex  items-start">
-                                                        <div className="flex items-center h-5">
-                                                            <input id="comments" name="comments" type="checkbox"
-                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                        </div>
-                                                        <div className=" text-sm">
-                                                            <label htmlFor="comments"
-                                                                className=" ml-3 font-mediuregular text-gray-700">Analysis</label>
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-start">
-                                                        <div className="flex items-center h-5">
-                                                            <input id="comments" name="comments" type="checkbox"
-                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                        </div>
-                                                        <div className="ml-3 text-sm">
-                                                            <label htmlFor="comments" className="font-mediuregular text-gray-700">R &
-                                                                D</label>
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-start">
-                                                        <div className="flex items-center h-5">
-                                                            <input id="comments" name="comments" type="checkbox"
-                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                        </div>
-                                                        <div className="ml-3 text-sm">
-                                                            <label htmlFor="comments"
-                                                                className="font-mediuregular text-gray-700">Bookkeeping</label>
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-start">
-                                                        <div className="flex items-center h-5">
-                                                            <input id="comments" name="comments" type="checkbox"
-                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                        </div>
-                                                        <div className="ml-3 text-sm">
-                                                            <label htmlFor="comments" className="font-mediuregular text-gray-700">Quick
-                                                                Larner</label>
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-start">
-                                                        <div className="flex items-center h-5">
-                                                            <input id="comments" name="comments" type="checkbox"
-                                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                                        </div>
-                                                        <div className="ml-3 text-sm">
-                                                            <label htmlFor="comments" className="font-mediuregular text-gray-700">Team
-                                                                Managment</label>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                    <div className="col-span-6 sm:col-span-3 w-full">
+                                        <div className=" flex px-4 py-3 bg-white text-right sm:px-6 justify-between">
+                                            <button onClick={clearTicket} className="mr-4 inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md ring-gray-500 ring-offset-4  text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-indigo-500">
+                                                New
+                                            </button>
+                                            <button onClick={submitTicket}
+                                                className="inline-flex justify-center w-24 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md  ring-indigo-500 ring-offset-4 bg-indigo-600 hover:bg-indigo-700 text-white focus:outline-none focus:ring-2  focus:ring-indigo-500">
+                                                Save
+                                            </button>
                                         </div>
-                                    </fieldset> */}
-
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div >
                 </div>
             </section >
-
-            {/* <div className="hidden sm:block" aria-hidden="true">
-                <div className="py-5">
-                    <div className=""></div>
-                </div>
-            </div> */}
         </div>
     )
 }

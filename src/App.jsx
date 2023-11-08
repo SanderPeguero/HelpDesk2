@@ -16,6 +16,7 @@ import Sidebar from './layout/Sidebar/Sidebar'
 import Reports from './layout/Reports/Reports'
 import Users from './layout/Users/Users'
 import AllTickets from './layout/AllTickets/AllTickets'
+import SolvedTickets from './layout/SolvedTickets/SolvedTickets'
 // import SignUp from './components/auth/SignUp'
 
 const Home = () => {
@@ -137,6 +138,7 @@ function App() {
                       {/* <Route exact path='/signin' element={<SignIn />} /> */}
                       <Route exact path='/' element={<AllTickets />} />
                       <Route exact path='/reports' element={<Reports />} />
+                      <Route exact path='/solvedtickets' element={<SolvedTickets />}/>
                       {/* <Route exact path='/users' element={<Users />} /> */}
                       <Route exact path='*' element={<Navigate to='/' />} />
                       {/* <Route exact path='/dashboardsparkle' element={<Dashboard />} />
@@ -154,6 +156,7 @@ function App() {
                       <Route exact path='/signin' element={<SignIn />} />
                       <Route exact path='/' element={<AllTickets />} />
                       <Route exact path='/reports' element={<Reports />} />
+                      <Route exact path='/solvedtickets' element={<SolvedTickets />} />
                       <Route exact path='/users' element={<Users />} />
                       <Route exact path='*' element={<Navigate to='/' />} />
                       {/* <Route exact path='/dashboardsparkle' element={<Dashboard />} />

@@ -1,7 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { getFirestore, setDoc, doc } from "firebase/firestore";
 import { useState, useContext } from "react"
-import { Link } from "react-router-dom"
 
 import { ContextVariable } from '../../Context'
 
